@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+        integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>API</title>
+    <style>
+        .check {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="check">
+        <label>Příchuť :</label>
+        <input  type="text" id="prichut_id" >     
+        <label>Množství :</label>
+        <input  type="number" id="mnozstvi_id"  aria-valuemin="0" value="0">      
+        <label>Cena :</label> 
+        <input type="number" id="cena_id" aria-valuemin="0" value="0">
+        <label>Prodejce :</label>
+        <input type="text" id="prodejce_id">
+        <label>ZeměVýroby :</label>
+        <input type="text" id="ZemeVyroby_id">
+
+        <br><br>
+        
+        <!-- <input type="radio" id="radio_check" onclick="
+        GetQuery(`query MyQuery {
+            Proteiny(where: { Cena: {_eq: ${$('#cena_id').val()}}}) {
+              Cena
+              Mnozstvi
+              Prichut
+              Prodejce
+              ZemeVyroby
+              id
+              id_protein
+            }
+
+          }`).then((value) => {
+              console.log(value);
+              
+          });"> -->
+
+        <input type="button" name="search" id="search" value="loadData">
+
+        <div id="content">
+
+
+        </div>
+
+    </div>
+
+    <!-- <script src="./Script_hasura.js"></script> -->
+
+    <script>
+        function GetQuery(query) {
+            
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: "https://projectpraxe.hasura.app/v1/graphql",
+                    headers: {
+                        "Content-Type": "application/json",                       
+                        "x-hasura-admin-secret": "T6wpZtqF9sVk41BQRkVyaw1AB1L2c4l01bqF752qB2w0QQWnSKLy2di75UjU86fQ"
+                    },
+                    type: "POST",
+                    data: JSON.stringify({ query: query }),
+                    success(data) {
+                        resolve(data)
+                    }
+                });
+            });
+        }
+       var mnozstvi_id = $('#mnozstvi_id');
+       var cena_id = $("#cena_id");
+        $("#search").click(function() {
+      
+            GetQuery(`query MyQuery {
+            Proteiny(where: {Cena: {_eq: ${$("#cena_id").val()}}, _or: {Mnozstvi: {_eq: ${$("#mnozstvi_id").val()}}, _or: {Prichut: {_eq: "${$("#prichut_id").val()}"}, _or: {Prodejce: {_eq: "${$("#prodejce_id").val()}"}, _or: {ZemeVyroby: {_eq: "${$("#ZemeVyroby_id").val()}"}}}}}}) {
+                Cena
+                Mnozstvi
+                Prichut
+                Prodejce
+                ZemeVyroby
+            }
+            }`).then((value) => {
+                console.log(value);
+                
+            });
+        });
+
+//         GetQuery(`query MyQuery {
+//   Proteiny(where: {Cena: {_eq: 500}}) {
+//     Cena
+//     Mnozstvi
+//     Prichut
+//     Prodejce
+//     ZemeVyroby
+//     id
+//     id_protein
+//   }
+// }`).then((value) => {
+//     console.log(value);
+// });
+
+           
+        // function loadData() {
+
+            
+
+        //     let search = document.getElementById("search");
+        //     let search_type = document.getElementById("search_type");
+        //     let search_trim = search.value.trim();
+
+
+
+        //     if (search_type = "prichut") {
+        //         query = search_type.prichut;
+        //     }
+
+        //     if (search_type = "cena") {
+        //         query = search_type.cena;
+        //     }
+
+        //     if (search_type = "mnozstvi") {
+        //         query = search_type.mnozstvi;
+        //     }
+        //     if (search_trim != "") {
+        //         query = search.value;
+        //     }
+        // }
+
+
+        // window.onload = function () {
+
+        //     let content = document.getElementById("content");
+
+        //     content.innerHTML = "";
+        //     let json = JSON.parse(this.ResponseText);
+
+
+
+        //     for (let i in json.data) {
+
+        //         let prodejce = data.Proteiny.Prodejce;
+        //         let prichut = data.Proteiny.Prichut;
+        //         let cena = data.Proteiny.Cena;
+        //         let mnozstvi = data.Proteiny.Mnozstvi;
+        //         let ZemeVyroby = data.Proteiny.ZemeVyroby;
+
+        //         if (prodejce == undefined) {
+        //             prodejce = "x";
+        //         }
+        //         if (prichut == undefined) {
+        //             prichut = "x";
+        //         }
+        //         if (cena == undefined) {
+        //             cena = "x";
+        //         }
+        //         if (mnozstvi == undefined) {
+        //             mnozstvi = "x";
+        //         }
+        //         if (ZemeVyroby == undefined) {
+        //             ZemeVyroby = "x";
+        //         }
+
+        //         content.innerHTML += `<div>
+
+        //            <div><b>${prodejce}</b></div><br>
+        //            <div><b>${prichut}</b></div><br>
+        //            <div><b>${cena}</b></div><br>
+        //            <div><b>${mnozstvi}</b></div>
+        //            <div><b>${ZemeVyroby}</b></div>
+           
+
+        //         </div>`;
+
+        //     }
+
+        // }
+
+
+
+
+    </script>
+</body>
+
+</html>
