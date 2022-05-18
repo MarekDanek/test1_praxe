@@ -13,7 +13,7 @@
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Mikiny</title>
 </head>
-<body>
+<body class="w3-light-grey">
     <div>
         <a href="index.html">
         <img src="fitness.png" id="logo" style="width: 150px;height: 150px;margin-left: 43%;">
@@ -25,22 +25,26 @@
       <div class="w3-row w3-section">
         <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="tshirt.png"></div>
           <div class="w3-rest">
-            <input class="w3-input w3-border" id="prichut_id"name="prichut_id" type="text" placeholder="Velikost">
+            <input class="w3-input w3-border" id="velikost" type="text" placeholder="Vyhledat podle velikosti">
           </div>
       </div>
       
     </form>
-    <button id="vyhledat" class=" w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vyhledat</button>
+    <button id="vyhledat" class="w3-container w3-card-4 w3-light-grey w3-text-black w3-margin w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vyhledat</button>
 
+
+    <p id="content"></p>
       
 
     <script>
- 
+        let content = document.getElementById("content");
+        
+
 
 
             $("#vyhledat").click(function(){
                 GetQuery(`query MyQuery {
-        Mikiny (where: {Velikost: {_eq: "${$('#vyhledat').val()}"}}){
+        Mikiny (where: {Velikost: {_eq: "${$('#velikost').val()}"}}){
             Barva
             Cena
             Latka
@@ -48,10 +52,18 @@
             id
          }
         }`).then((value) => {
-                console.log(value);     
-                 });
+               console.log(value);
 
-            });
+               document.getElementById("content").innerHTML = JSON.stringify(value, null, 2);
+                  
+                     })
+      
+                    
+                 });
+                
+
+
+           
 
 
    
