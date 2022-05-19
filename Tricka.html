@@ -4,9 +4,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Trička</title>
 </head>
-<body>
+<body class="w3-light-grey">
+
+    <div>
+        <a href="index.html">
+        <img src="fitness.png" id="logo" style="width: 150px;height: 150px;margin-left: 43%;">
+        </a>
+      </div>
+
+      <form class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+
+      <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="tshirt.png"></div>
+          <div class="w3-rest">
+            <input class="w3-input w3-border" id="velikost" type="text" placeholder="Vyhledat podle velikosti">
+          </div>
+      </div>
+      
+    </form>
+    <button id="vyhledat" class="w3-container w3-card-4 w3-light-grey w3-text-black w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vyhledat</button>
+
+
+
+
+    <p id="content"></p>
+    <script>
+        let content = document.getElementById("content");
+        
+
+
+
+            $("#vyhledat").click(function(){
+                GetQuery(`query MyQuery {
+        Tricka (where: {Velikost: {_eq: "${$('#velikost').val()}"}}){
+            Barva
+            Cena
+            Latka
+            Velikost
+            id
+         }
+        }`).then((value) => {
+               console.log(value);
+
+               document.getElementById("content").innerHTML = JSON.stringify(value, null, 2);
+                  
+                     })
+      
+                    
+                 });
+        
+
+
+   function GetQuery(query) {
+            
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: "https://projectpraxe.hasura.app/v1/graphql",
+                    headers: {
+                        "Content-Type": "application/json",                       
+                        "x-hasura-admin-secret": "T6wpZtqF9sVk41BQRkVyaw1AB1L2c4l01bqF752qB2w0QQWnSKLy2di75UjU86fQ"
+                    },
+                    type: "POST",
+                    data: JSON.stringify({ query: query }),
+                    success(data) {
+                        resolve(data)
+                    }
+                });
+            });
+        }
+
+
+
+    </script>
     
 </body>
 </html>

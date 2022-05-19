@@ -30,7 +30,7 @@
       </div>
       
     </form>
-    <button id="vyhledat" class="w3-container w3-card-4 w3-light-grey w3-text-black w3-margin w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vyhledat</button>
+    <button id="vyhledat" class=" w3-card-4 w3-light-grey w3-text-black  w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vyhledat</button>
 
 
     <p id="content"></p>
@@ -38,10 +38,8 @@
 
     <script>
         let content = document.getElementById("content");
+
         
-
-
-
             $("#vyhledat").click(function(){
                 GetQuery(`query MyQuery {
         Mikiny (where: {Velikost: {_eq: "${$('#velikost').val()}"}}){
@@ -53,18 +51,11 @@
          }
         }`).then((value) => {
                console.log(value);
-
                document.getElementById("content").innerHTML = JSON.stringify(value, null, 2);
                   
                      })
       
-                    
                  });
-                
-
-
-           
-
 
    
 //            window.addEventListener('load', (event) => {
