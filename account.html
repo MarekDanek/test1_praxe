@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="Styly-praxe.css">
+    <title>Účet</title>
+</head>
+<body class="w3-light-grey">
+
+    <div>
+        <a href="index.html">
+        <img src="fitness.png" id="logo" style="width: 150px;height: 150px;margin-left: 43%;">
+        </a>
+      </div>
+
+    <form class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+
+        <div class="w3-row w3-section">
+          <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="name.png"></div>
+            <div class="w3-rest">
+              <input class="w3-input w3-border" id="Jmeno" type="text" placeholder="Jméno">
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="name.png"></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-border" id="Prijmeni" type="text" placeholder="Příjmení">
+              </div>
+          </div>
+
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="age.png"></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-border" id="Vek" type="number" placeholder="Věk">
+              </div>
+          </div>
+
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="location.png"></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-border" id="Adresa" type="text" placeholder="Adresa">
+              </div>
+          </div>
+
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="telephone-call.png"></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-border" id="Telefon" type="number" placeholder="Telefon">
+              </div>
+          </div>
+
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="email.png"></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-border" id="Email" type="text" placeholder="Email">
+              </div>
+          </div>
+        
+      </form>
+      <button id="vytvorit" class=" w3-card-4 w3-light-grey w3-text-black  w3-button w3-block w3-section w3-grey w3-ripple w3-padding">Vytvořit Účet</button>
+   
+
+
+         <script>
+
+          var jmeno = document.getElementById("Jmeno").value;
+          var prijmeni = document.getElementById("Prijmeni").value;
+          var vek = document.getElementById("Vek").value;
+          var adresa = document.getElementById("Adresa").value;
+          var telefon = document.getElementById("Telefon").value;
+          var email = document.getElementById("Email").value;
+     
+     $("#vytvorit").click(function(){
+            GetQuery(`mutation {
+  insert_Ucet(objects: {Vek: ${vek}, Telefon: ${telefon}, Prijmeni: "${prijmeni}", Jmeno: "${jmeno}", Email: "${email}", Adresa: "${adresa}"}) {
+    returning {
+      id
+    }
+  }
+}`).then((value) => {
+         console.log(value);     
+            });
+          });
+
+        
+
+
+
+    function GetQuery(query) {
+            
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: "https://projectpraxe.hasura.app/v1/graphql",
+                    headers: {
+                        "Content-Type": "application/json",                       
+                        "x-hasura-admin-secret": "T6wpZtqF9sVk41BQRkVyaw1AB1L2c4l01bqF752qB2w0QQWnSKLy2di75UjU86fQ"
+                    },
+                    type: "POST",
+                    data: JSON.stringify({ query: query }),
+                    success(data) {
+                        resolve(data)
+                    }
+                });
+            });
+        }
+
+         </script>
+
+
+
+    
+</body>
+</html>
