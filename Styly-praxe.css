@@ -131,3 +131,18 @@ display: block;
 .Obleceni:hover .Obleceni-btn {
 background-color: black;
 }
+
+
+
+
+input:invalid {
+    border: 2px dashed red;
+  }
+  
+  input:invalid:required {
+    background-image: linear-gradient(to right, rgb(180, 180, 180), rgb(120, 120, 120));
+  }
+  
+  input:valid {
+    border: 2px solid black;
+  }

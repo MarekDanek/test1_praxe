@@ -27,42 +27,42 @@
         <div class="w3-row w3-section">
           <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="name.png"></div>
             <div class="w3-rest">
-              <input class="w3-input w3-border" id="Jmeno" type="text" placeholder="Jméno">
+              <input class="w3-input w3-border" id="Jmeno" type="text" placeholder="Jméno" required>
             </div>
         </div>
 
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="name.png"></div>
               <div class="w3-rest">
-                <input class="w3-input w3-border" id="Prijmeni" type="text" placeholder="Příjmení">
+                <input class="w3-input w3-border" id="Prijmeni" type="text" placeholder="Příjmení" required>
               </div>
           </div>
 
           <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="age.png"></div>
               <div class="w3-rest">
-                <input class="w3-input w3-border" id="Vek" type="number" placeholder="Věk">
+                <input class="w3-input w3-border" id="Vek" type="number" placeholder="Věk" required>
               </div>
           </div>
 
           <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="location.png"></div>
               <div class="w3-rest">
-                <input class="w3-input w3-border" id="Adresa" type="text" placeholder="Adresa">
+                <input class="w3-input w3-border" id="Adresa" type="text" placeholder="Adresa" required>
               </div>
           </div>
 
           <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="telephone-call.png"></div>
               <div class="w3-rest">
-                <input class="w3-input w3-border" id="Telefon" type="number" placeholder="Telefon">
+                <input class="w3-input w3-border" id="Telefon" type="number" placeholder="Telefon" required> 
               </div>
           </div>
 
           <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><img style="width: 40px; height: 40px;" src="email.png"></div>
               <div class="w3-rest">
-                <input class="w3-input w3-border" id="Email" type="text" placeholder="Email">
+                <input class="w3-input w3-border" id="Email" type="text" placeholder="Email" required>
               </div>
           </div>
         
@@ -72,17 +72,11 @@
 
 
          <script>
-
-          var jmeno = document.getElementById("Jmeno").value;
-          var prijmeni = document.getElementById("Prijmeni").value;
-          var vek = document.getElementById("Vek").value;
-          var adresa = document.getElementById("Adresa").value;
-          var telefon = document.getElementById("Telefon").value;
-          var email = document.getElementById("Email").value;
+  
      
      $("#vytvorit").click(function(){
-            GetQuery(`mutation {
-  insert_Ucet(objects: {Vek: ${vek}, Telefon: ${telefon}, Prijmeni: "${prijmeni}", Jmeno: "${jmeno}", Email: "${email}", Adresa: "${adresa}"}) {
+            GetQuery(`mutation (${Vek}: Int!, ${Telefon}: Int!, ${Prijmeni}: String!, ${Jmeno}: String!, ${Email}: String!, ${Adresa}: String!) {
+  insert_Ucet(objects: {Vek: ${$('#Vek').val()}, Telefon: ${$('#Telefon').val()}, Prijmeni: "${$('#Prijmeni').val()}", Jmeno: "${$('#Jmeno').val()}", Email: "${$('#Email').val()}", Adresa: "${$('#Adresa').val()}"}) {
     returning {
       id
     }
@@ -91,9 +85,6 @@
          console.log(value);     
             });
           });
-
-        
-
 
 
     function GetQuery(query) {
